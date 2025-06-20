@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: homework
+  name: nginx-exporter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-exporter
+  template:
+    metadata:
+      labels:
+        app: nginx-exporter
+    spec:
+      containers:
+      - name: exporter
+        image: nginx/nginx-prometheus-exporter:1.1.0
+        args:
+          - "-nginx.scrape-uri=http://nginx-app:8080/nginx_status"
+        ports:
+          - name: metrics
+            containerPort: 9113
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: homework
+  name: nginx-exporter
+  labels:
+    app: nginx-exporter
+spec:
+  selector:
+    app: nginx-exporter
+  ports:
+    - name: metrics
+      port: 9113
+      targetPort: 9113

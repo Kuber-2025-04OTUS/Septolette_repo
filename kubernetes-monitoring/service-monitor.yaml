@@ -1,0 +1,14 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  namespace: homework
+  name: nginx-exporter
+  labels:
+    release: kube-prometheus
+spec:
+  selector:
+    matchLabels:
+      app: nginx-exporter
+  endpoints:
+  - port: metrics
+    interval: 15s
