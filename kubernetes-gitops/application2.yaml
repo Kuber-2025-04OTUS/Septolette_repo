@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kubernetes-templating
+  namespace: argocd
+spec:
+  destination:
+    namespace: homeworkhelm
+    server: https://kubernetes.default.svc
+  source:
+    path: kubernetes-templating/homework-app
+    repoURL: https://github.com/Kuber-2024-08OTUS/Septolette_repo.git
+    targetRevision: main
+    helm:
+      valueFiles:
+        - values.yaml
+      parameters:
+        - name: ingress.enabled
+          value: 'false'
+        - name: createStorageClass.create
+          value: 'false'
+        - name: replicaCount
+          value: '2'
+        - name: pvc.storageClass
+          value: 'yc-network-hdd'
+        - name: pvc.storageRequest
+          value: '1Gi'
+  sources: []
+  project: otus
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

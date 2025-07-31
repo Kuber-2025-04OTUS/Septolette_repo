@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: otus
+  namespace: argocd
+spec:
+  sourceRepos:
+    - https://github.com/Kuber-2024-08OTUS/Septolette_repo.git
+  destinations:
+    - namespace: homework
+      server: https://kubernetes.default.svc
+    - namespace: homeworkhelm
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
