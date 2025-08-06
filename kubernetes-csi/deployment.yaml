@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: s3-app
+  namespace: csi-s3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: s3-app
+  template:
+    metadata:
+      labels:
+        app: s3-app
+    spec:
+      containers:
+        - name: s3-container
+          image: busybox
+          command: ["sh", "-c", "while true; do echo hello >> /mnt/data/hello.txt; sleep 10; done"]
+          volumeMounts:
+            - name: s3-storage
+              mountPath: /mnt/data 
+      volumes:
+        - name: s3-storage
+          persistentVolumeClaim:
+            claimName: s3-pvc
