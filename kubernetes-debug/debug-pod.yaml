@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: debug
+  namespace: homework
+spec:
+  nodeName: cl1cpi6o4foa198rfjtf-yciq
+  hostPID: true
+  hostNetwork: true
+  dnsPolicy: ClusterFirstWithHostNet
+  containers:
+    - name: debug
+      image: nicolaka/netshoot
+      command: ["sleep", "infinity"]
+      tty: true
+      stdin: true
+      securityContext:
+        privileged: true
+        capabilities:
+          add: ["SYS_PTRACE"]
+        appArmorProfile:
+          type: Unconfined
