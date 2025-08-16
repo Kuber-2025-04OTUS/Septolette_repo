@@ -1,0 +1,9 @@
+apiVersion: otus.homework/v1
+kind: MySQL
+metadata:
+  name: example-mysql
+  namespace: homework
+spec:
+  size: "5Gi"
+  image: "mysql:8"
+  mysqlRootPassword: "rootpassword"

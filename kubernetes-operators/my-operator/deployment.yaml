@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-operator
+  namespace: homework
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-operator
+  template:
+    metadata:
+      labels:
+        app: my-operator
+    spec:
+      serviceAccountName: my-operator-sa
+      containers:
+        - name: my-operator
+          image: docker.io/cherstvyy/my-operator:16.08.2025.v2
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
